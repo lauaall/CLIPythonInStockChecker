@@ -1,3 +1,6 @@
+##########
+# Github skelq/notify
+##########
 import json
 import requests
 import os
@@ -7,21 +10,34 @@ from datetime import datetime
 from requests.adapters import HTTPAdapter, Retry
 from twilio.rest import Client
 
+# user inputs
+while (True):
+    try:
+        delay = int(delay)
+        break
+    except:
+        delay = int(input("\nDelay between each request?(seconds) : "))
+        continue
+
+website = (input("\nURL must end in .js\nWhat shopify product?(URL) : "))
+
+
+print("\nStarted program...\n")
 sys = os.path
 def notify():
-    account_sid = 'YOUR TWILIO SID' 
-    auth_token = 'YOUR TWILIO AUTH TOKEN' 
+    account_sid = '' 
+    auth_token = '' 
     client = Client(account_sid, auth_token) 
     message = client.messages.create(
-                                messaging_service_sid='YOUR SID', 
-                                body='Flipper Zero is in stock https://lab401.com/products/flipper-zero?variant=42927883485414',
-                                to='YOUR PHONE NUMBER' 
+                                messaging_service_sid='', 
+                                body='Product is in stock!',
+                                to='PHONE NUMBER' 
                                 ) 
     print(message.sid)
 
 I = 0
 while (True):
-    sleep(0)
+    sleep(delay)
     I += 1
     s = requests.Session()
     retries = Retry(total=10,
@@ -29,7 +45,7 @@ while (True):
                 status_forcelist=[ 500, 502, 503, 504 ])
     s.mount('https://', HTTPAdapter(max_retries=retries))
     headers = {"User-Agent" : "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.103 Safari/537.36"}
-    r = s.get("https://lab401.com/products/flipper-zero.js", headers=headers, timeout=5)
+    r = s.get(website, headers=headers, timeout=5)
     
     
     # Thanks to bl4de for this table
@@ -115,7 +131,7 @@ while (True):
             else:
                 print(r.status_code);print("\n")
             continue
-        #r = requests.get('https://lab401.com/products/flipper-zero.js%27)
+        #r = requests.get('https://lab401.com/products/flipper-zero.js')
         # save the json that was requested in response.txt
         with open('response.txt', 'w') as f:
             f.write(r.text)
