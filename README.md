@@ -1,5 +1,5 @@
 # Python CLI stock checker
-
+Supports Twilio messaging API (use it if you know what you are doing.)
 ## Instructions:
 1. Have **Python 3.9.13** installed
 2. Go to any shop that uses Shopify
