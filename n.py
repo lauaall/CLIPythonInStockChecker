@@ -1,5 +1,5 @@
 ##########
-# Github skelq/notify
+# Github lauaall/notify
 ##########
 import json
 import requests
